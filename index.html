@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJ+ Finance</title>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f0c29">
+
+    <!-- Icons -->
+    <link rel="shortcut icon" href="images/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+
+<body>
+    <!-- App Layout -->
+
+    <div class="app-layout">
+        <!-- Desktop Sidebar -->
+        <aside class="sidebar">
+            <div style="margin-bottom: 20px; text-align: center;">
+                <img src="images/banner.png" alt="AJ+ Banner" class="sidebar-banner">
+            </div>
+
+            <nav style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <button class="nav-btn active" onclick="app.navigate('dashboard')">
+                    <span class="icon">📊</span> Dashboard
+                </button>
+                <button class="nav-btn" onclick="app.navigate('analytics')">
+                    <span class="icon">📈</span> Analytics
+                </button>
+                <button class="nav-btn" onclick="app.navigate('transactions')">
+                    <span class="icon">💸</span> History
+                </button>
+                <button class="nav-btn" onclick="app.navigate('bills')">
+                    <span class="icon">📅</span> Bills
+                </button>
+                <button class="nav-btn" onclick="app.navigate('budget')">
+                    <span class="icon">🧠</span> Smart Budget
+                </button>
+                <button class="nav-btn" onclick="app.navigate('shopping')">
+                    <span class="icon">🛒</span> Shopping
+                </button>
+                <button class="nav-btn" onclick="app.navigate('goals')">
+                    <span class="icon">🎯</span> Goals
+                </button>
+                <button class="nav-btn" onclick="app.navigate('settings')">
+                    <span class="icon">⚙️</span> Settings
+                </button>
+            </nav>
+
+            <button class="btn btn-primary" onclick="app.openAddModal()" style="margin-top: auto;">
+                + New Transaction
+            </button>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="main-view" class="main-content">
+            <!-- Dynamic Content Load Here -->
+            <div class="glass-card" style="text-align: center; padding: 50px;">
+                <div class="spinner"></div>
+                <h2>Loading AJ+...</h2>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Header (Visible only in 'side' layout) -->
+    <header class="mobile-header">
+        <div style="font-weight:800; font-size:1.2rem; color:var(--accent);">AJ+ Finance</div>
+        <button onclick="app.toggleSidebar()"
+            style="background:none; border:none; color:white; font-size:1.5rem;">☰</button>
+    </header>
+
+    <!-- Mobile Sidebar Drawer (Visible only in 'side' layout) -->
+    <div class="mobile-sidebar-overlay" onclick="app.toggleSidebar()"></div>
+    <aside class="mobile-sidebar">
+        <div
+            style="padding:20px; font-weight:800; font-size:1.5rem; color:var(--accent); border-bottom:1px solid var(--border-color); margin-bottom:10px;">
+            AJ+ Finance
+        </div>
+        <div class="sidebar-link" onclick="app.navigate('dashboard'); app.toggleSidebar()"><span>📊</span> Dashboard
+        </div>
+        <div class="sidebar-link" onclick="app.navigate('transactions'); app.toggleSidebar()"><span>💸</span> History
+        </div>
+        <div class="sidebar-link" onclick="app.navigate('bills'); app.toggleSidebar()"><span>📅</span> Bills</div>
+        <div class="sidebar-link" onclick="app.navigate('budget'); app.toggleSidebar()"><span>🧠</span> Budget</div>
+        <div class="sidebar-link" onclick="app.navigate('goals'); app.toggleSidebar()"><span>🎯</span> Goals</div>
+        <div class="sidebar-link" onclick="app.navigate('shopping'); app.toggleSidebar()"><span>🛒</span> Shopping</div>
+        <div class="sidebar-link" onclick="app.navigate('analytics'); app.toggleSidebar()"><span>📈</span> Analytics
+        </div>
+        <div class="sidebar-link" style="margin-top:auto;" onclick="app.navigate('settings'); app.toggleSidebar()">
+            <span>⚙️</span> Settings
+        </div>
+    </aside>
+
+    <!-- Mobile Bottom Navigation (Visible only on mobile - Default Bar) -->
+    <nav class="mobile-nav-container">
+        <div class="button-container">
+            <button class="button" onclick="app.navigate('settings')">
+                <span class="icon">⚙️</span>
+            </button>
+            <button class="button" onclick="app.navigate('goals')">
+                <span class="icon">🎯</span>
+            </button>
+            <button class="button" onclick="app.navigate('budget')">
+                <span class="icon">🧠</span>
+            </button>
+            <button class="button" onclick="app.navigate('bills')">
+                <span class="icon">📅</span>
+            </button>
+
+            <button class="button" style="background:var(--accent); box-shadow:0 0 10px var(--accent);"
+                onclick="app.openAddModal()">
+                <span class="icon" style="font-weight:bold; font-size:1.5rem;">+</span>
+            </button>
+
+            <button class="button" onclick="app.navigate('transactions')">
+                <span class="icon">💸</span>
+            </button>
+            <button class="button" onclick="app.navigate('shopping')">
+                <span class="icon">🛒</span>
+            </button>
+            <button class="button" onclick="app.navigate('analytics')">
+                <span class="icon">📈</span>
+            </button>
+            <button class="button" onclick="app.navigate('dashboard')">
+                <span class="icon">📊</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Tabs Container (Visible only in 'tabs' layout) -->
+    <nav class="mobile-tabs-container">
+        <div class="radio-inputs">
+            <label class="radio">
+                <input type="radio" name="mobile-tab" onclick="app.navigate('settings')">
+                <div class="name">
+                    <span class="pre-name"></span>
+                    <span class="pos-name"></span>
+                    <span>⚙️</span>
+                </div>
+            </label>
+            <label class="radio">
+                <input type="radio" name="mobile-tab" onclick="app.navigate('goals')">
+                <div class="name">
+                    <span class="pre-name"></span>
+                    <span class="pos-name"></span>
+                    <span>🎯</span>
+                </div>
+            </label>
+            <label class="radio">
+                <input type="radio" name="mobile-tab" onclick="app.navigate('budget')">
+                <div class="name">
+                    <span class="pre-name"></span>
+                    <span class="pos-name"></span>
+                    <span>🧠</span>
+                </div>
+            </label>
+            <label class="radio">
+                <input type="radio" name="mobile-tab" onclick="app.navigate('bills')">
+                <div class="name">
+                    <span class="pre-name"></span>
+                    <span class="pos-name"></span>
+                    <span>📅</span>
+                </div>
+            </label>
+
+            <!-- Red Add Button -->
+            <label class="radio tab-add">
+                <input type="radio" name="mobile-tab" onclick="app.openAddModal()">
+                <div class="name">
+                    <span class="pre-name"></span>
+                    <span class="pos-name"></span>
+                    <span style="font-size:1.4rem; font-weight:900;">+</span>
+                </div>
+            </label>
+
+            <label class="radio">
+                <input type="radio" name="mobile-tab" onclick="app.navigate('transactions')">
+                <div class="name">
+                    <span class="pre-name"></span>
+                    <span class="pos-name"></span>
+                    <span>💸</span>
+                </div>
+            </label>
+            <label class="radio">
+                <input type="radio" name="mobile-tab" onclick="app.navigate('shopping')">
+                <div class="name">
+                    <span class="pre-name"></span>
+                    <span class="pos-name"></span>
+                    <span>🛒</span>
+                </div>
+            </label>
+            <label class="radio">
+                <input type="radio" name="mobile-tab" onclick="app.navigate('analytics')">
+                <div class="name">
+                    <span class="pre-name"></span>
+                    <span class="pos-name"></span>
+                    <span>📈</span>
+                </div>
+            </label>
+            <label class="radio">
+                <input type="radio" name="mobile-tab" onclick="app.navigate('dashboard')" checked>
+                <div class="name">
+                    <span class="pre-name"></span>
+                    <span class="pos-name"></span>
+                    <span>📊</span>
+                </div>
+            </label>
+        </div>
+    </nav>
+
+    <!-- Transaction Modal -->
+    <div id="add-modal" class="modal-overlay hidden"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(3px); z-index:200; align-items:center; justify-content:center;">
+
+        <div class="modal-card" style="animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <div class="flex-between" style="margin-bottom:10px;">
+                <div class="modal-title" style="margin:0;">New Transaction</div>
+                <button onclick="app.closeModal()"
+                    style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;">&times;</button>
+            </div>
+
+            <!-- Sliding Tabs -->
+            <div id="type-tabs" class="tab-container expense-mode">
+                <div class="indicator"></div>
+                <button class="tab selected" onclick="app.setTransType('expense')">Expense 💸</button>
+                <button class="tab" onclick="app.setTransType('income')">Income 💰</button>
+            </div>
+
+            <div class="form-container">
+                <!-- Category -->
+                <div class="input-wrapper">
+                    <select id="trans-category" class="custom-input" required>
+                        <!-- JS Populated -->
+                    </select>
+                    <label class="input-label">Category</label>
+                </div>
+
+                <!-- Amount -->
+                <div class="input-wrapper">
+                    <input id="trans-amount" type="number" class="custom-input" placeholder=" ">
+                    <label class="input-label">Amount</label>
+                </div>
+
+                <!-- Note -->
+                <div class="input-wrapper">
+                    <input id="trans-note" type="text" class="custom-input" placeholder=" ">
+                    <label class="input-label">Note (Optional)</label>
+                </div>
+            </div>
+
+            <div style="margin-top:25px;">
+                <button class="btn btn-primary"
+                    style="width:100%; padding:15px; border-radius:12px; font-size:1.1rem; box-shadow:0 10px 20px -5px rgba(142, 45, 226, 0.4);"
+                    onclick="app.saveTransaction()">
+                    Save Transaction
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js" type="module"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('SW Registered'))
+                .catch(console.error);
+        }
+    </script>
+</body>
+
+</html>
