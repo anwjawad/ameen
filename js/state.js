@@ -5,7 +5,7 @@
 
 export const state = {
     // CONFIG: REPLACE THIS WITH YOUR NEW DEPLOYMENT URL
-    apiUrl: "https://script.google.com/macros/s/AKfycbwV1p4Y2FKL0RwWES0Mur7zeQA1pfM2DKSzJIFskXFLiX7I6DXDSl0hSAVNrApKVSP77A/exec",
+    apiUrl: "https://script.google.com/macros/s/AKfycbx-vAlQvmM_P1gZv1XdiNVQwi2RFqd-7riRrM8JpBsiMOM00D2Q5o9WOmpzcrHfjBmb5Q/exec",
 
     // Data Stores
     transactions: [],
@@ -35,3 +35,4 @@ export const state = {
         }
     }
 };
+
