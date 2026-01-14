@@ -1503,6 +1503,107 @@ body.layout-tabs .mobile-tabs-container {
     transition: all 0.3s;
 }
 
+/* --- Custom Animated Dropdown (User Request) --- */
+
+.custom-select {
+    width: fit-content;
+    min-width: 150px;
+    cursor: pointer;
+    position: relative;
+    transition: 300ms;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    z-index: 50;
+    /* Ensure it stacks above charts */
+}
+
+.custom-select .selected {
+    background-color: #2a2f3b;
+    /* User's preferred dark color */
+    padding: 10px 15px;
+    margin-bottom: 3px;
+    border-radius: 8px;
+    position: relative;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-select .arrow {
+    height: 12px;
+    width: 12px;
+    fill: white;
+    transition: 300ms;
+    transform: rotate(0deg);
+    /* Default pointing down/left depending on icon */
+}
+
+.custom-select.active .arrow {
+    transform: rotate(180deg);
+}
+
+.custom-select .options {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    padding: 5px;
+    background-color: #2a2f3b;
+    /* Match selected bg */
+    position: absolute;
+    top: 110%;
+    /* Just below */
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(-10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+/* For Scrollbar in dropdown */
+.custom-select .options::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-select .options::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.custom-select.active .options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.custom-select .option {
+    border-radius: 5px;
+    padding: 10px;
+    transition: 200ms;
+    background-color: transparent;
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.custom-select .option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.custom-select .option.selected-opt {
+    color: var(--accent);
+    background-color: rgba(142, 45, 226, 0.1);
+}
+
 .mobile-sidebar-overlay.open {
     opacity: 1;
     visibility: visible;
@@ -1582,111 +1683,4 @@ body.layout-tabs .mobile-tabs-container {
         flex-direction: column;
         gap: 20px;
     }
-}
-
-/* --- Custom Animated Dropdowns --- */
-
-.custom-select-wrapper {
-    position: relative;
-    user-select: none;
-    width: auto;
-    display: inline-block;
-    min-width: 150px;
-    margin-bottom: 0;
-    /* Align nicely */
-}
-
-/* Hide native select but keep it accessible-ish/functional in background */
-.custom-select-wrapper select {
-    display: none;
-}
-
-.custom-select-trigger {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 15px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-main);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.custom-select-trigger:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--accent);
-}
-
-.custom-select-trigger::after {
-    content: '▼';
-    font-size: 0.7rem;
-    margin-left: 10px;
-    transition: transform 0.3s;
-    opacity: 0.7;
-}
-
-/* Open State */
-.custom-select-wrapper.open .custom-select-trigger::after {
-    transform: rotate(180deg);
-}
-
-.custom-options {
-    position: absolute;
-    top: 110%;
-    left: 0;
-    right: 0;
-    min-width: 100%;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    z-index: 2000;
-    /* Above modals */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    max-height: 250px;
-    overflow-y: auto;
-}
-
-.custom-select-wrapper.open .custom-options {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.custom-option {
-    padding: 12px 15px;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: 0.2s;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    white-space: nowrap;
-}
-
-.custom-option:last-child {
-    border-bottom: none;
-}
-
-.custom-option:hover {
-    background: var(--accent);
-    color: white;
-    padding-left: 20px;
-}
-
-.custom-option.selected {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--accent);
-    font-weight: 700;
 }
