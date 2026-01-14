@@ -1503,105 +1503,202 @@ body.layout-tabs .mobile-tabs-container {
     transition: all 0.3s;
 }
 
-/* --- Custom Animated Dropdown (User Request) --- */
+/* --- Custom Animated Dropdown (MockAPI Style - Adapted) --- */
 
-.custom-select {
-    width: fit-content;
-    min-width: 150px;
-    cursor: pointer;
-    position: relative;
-    transition: 300ms;
-    color: white;
-    font-family: 'Inter', sans-serif;
-    z-index: 50;
-    /* Ensure it stacks above charts */
+.popup {
+    --burger-line-width: 1.125em;
+    --burger-line-height: 0.125em;
+    --burger-offset: 0.625em;
+    --burger-bg: rgba(255, 255, 255, 0.1);
+    --burger-color: #fff;
+    --burger-line-border-radius: 0.1875em;
+    --burger-diameter: auto;
+    /* Adaptive width */
+    --burger-btn-border-radius: 12px;
+    --burger-line-transition: .3s;
+    --burger-transition: all .2s ease-in-out;
+    --burger-hover-scale: 1.02;
+    --burger-active-scale: .98;
+    --burger-enable-outline-color: var(--burger-bg);
+    --burger-enable-outline-width: 0.125em;
+    --burger-enable-outline-offset: var(--burger-enable-outline-width);
+    /* nav */
+    --nav-padding-x: 0.5em;
+    --nav-padding-y: 0.5em;
+    --nav-border-radius: 0.75em;
+    --nav-border-color: rgba(255, 255, 255, 0.1);
+    --nav-border-width: 0.0625em;
+    --nav-shadow-color: rgba(0, 0, 0, .4);
+    --nav-shadow-width: 0 10px 20px;
+    --nav-bg: #2a2f3b;
+    --nav-font-family: 'Inter', sans-serif;
+    --nav-text-color: #fff;
+    --nav-default-scale: .9;
+    --nav-active-scale: 1;
+    --nav-position-left: 0;
+    --nav-position-right: unset;
+    /* title */
+    --nav-title-size: 0.75em;
+    --nav-title-color: #aaa;
+    --nav-title-padding-x: 1rem;
+    --nav-title-padding-y: 0.25em;
+    /* nav button */
+    --nav-button-padding-x: 1rem;
+    --nav-button-padding-y: 0.5em;
+    --nav-button-border-radius: 0.375em;
+    --nav-button-font-size: 14px;
+    --nav-button-hover-bg: rgba(142, 45, 226, 0.2);
+    --nav-button-hover-text-color: #fff;
+    --nav-button-distance: 0.875em;
+    /* underline */
+    --underline-border-width: 0.0625em;
+    --underline-border-color: rgba(255, 255, 255, 0.1);
+    --underline-margin-y: 0.3125em;
 }
 
-.custom-select .selected {
-    background-color: #2a2f3b;
-    /* User's preferred dark color */
-    padding: 10px 15px;
-    margin-bottom: 3px;
-    border-radius: 8px;
+.popup {
+    display: inline-block;
+    text-rendering: optimizeLegibility;
     position: relative;
-    font-size: 15px;
+    z-index: 50;
+    vertical-align: middle;
+}
+
+.popup input {
+    display: none;
+}
+
+.burger {
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--burger-bg);
+    min-width: 140px;
+    width: auto;
+    padding: 10px 15px;
+    border-radius: var(--burger-btn-border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Subtle border */
+    cursor: pointer;
+    overflow: hidden;
+    transition: var(--burger-transition);
+    outline: var(--burger-enable-outline-width) solid transparent;
+    outline-offset: 0;
+    color: var(--burger-color);
+    gap: 10px;
+    font-size: 14px;
 }
 
-.custom-select .arrow {
-    height: 12px;
-    width: 12px;
-    fill: white;
-    transition: 300ms;
-    transform: rotate(0deg);
-    /* Default pointing down/left depending on icon */
+.burger .text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
 }
 
-.custom-select.active .arrow {
-    transform: rotate(180deg);
+.burger .arrow-icon {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    transition: transform 0.3s;
 }
 
-.custom-select .options {
-    display: flex;
-    flex-direction: column;
-    border-radius: 8px;
-    padding: 5px;
-    background-color: #2a2f3b;
-    /* Match selected bg */
-    position: absolute;
-    top: 110%;
-    /* Just below */
-    left: 0;
-    width: 100%;
-    opacity: 0;
+.popup-window {
+    transform: scale(var(--nav-default-scale));
     visibility: hidden;
-    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateY(-10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    position: absolute;
+    padding: var(--nav-padding-y) var(--nav-padding-x);
+    background: var(--nav-bg);
+    font-family: var(--nav-font-family);
+    color: var(--nav-text-color);
+    border-radius: var(--nav-border-radius);
+    box-shadow: var(--nav-shadow-width) var(--nav-shadow-color);
+    border: var(--nav-border-width) solid var(--nav-border-color);
+    top: calc(100% + 10px);
+    left: var(--nav-position-left);
+    right: var(--nav-position-right);
+    transition: var(--burger-transition);
     z-index: 1000;
-    max-height: 250px;
+    min-width: 100%;
+    max-height: 300px;
     overflow-y: auto;
 }
 
-/* For Scrollbar in dropdown */
-.custom-select .options::-webkit-scrollbar {
+.popup-window legend {
+    padding: var(--nav-title-padding-y) var(--nav-title-padding-x);
+    margin: 0;
+    color: var(--nav-title-color);
+    font-size: var(--nav-title-size);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.popup-window ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.popup-window ul button {
+    outline: none;
+    width: 100%;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    color: var(--nav-text-color);
+    font-size: var(--nav-button-font-size);
+    padding: var(--nav-button-padding-y) var(--nav-button-padding-x);
+    white-space: nowrap;
+    border-radius: var(--nav-button-border-radius);
+    cursor: pointer;
+    column-gap: var(--nav-button-distance);
+    text-align: left;
+    /* Ensure text alignment for buttons */
+}
+
+.popup-window ul button:hover,
+.popup-window ul button:focus-visible {
+    color: var(--nav-button-hover-text-color);
+    background: var(--nav-button-hover-bg);
+}
+
+/* Animations */
+.burger:hover {
+    transform: scale(var(--burger-hover-scale));
+}
+
+.burger:active {
+    transform: scale(var(--burger-active-scale));
+}
+
+.popup input:checked+.burger {
+    border-color: rgba(142, 45, 226, 0.5);
+    background: rgba(142, 45, 226, 0.1);
+}
+
+/* Rotate arrow when checked */
+.popup input:checked+.burger .arrow-icon {
+    transform: rotate(180deg);
+}
+
+.popup input:checked~nav {
+    transform: scale(var(--nav-active-scale));
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Scrollbar for popup */
+.popup-window::-webkit-scrollbar {
     width: 4px;
 }
 
-.custom-select .options::-webkit-scrollbar-thumb {
+.popup-window::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
-}
-
-.custom-select.active .options {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.custom-select .option {
-    border-radius: 5px;
-    padding: 10px;
-    transition: 200ms;
-    background-color: transparent;
-    font-size: 14px;
-    color: var(--text-muted);
-    cursor: pointer;
-}
-
-.custom-select .option:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-}
-
-.custom-select .option.selected-opt {
-    color: var(--accent);
-    background-color: rgba(142, 45, 226, 0.1);
 }
 
 .mobile-sidebar-overlay.open {

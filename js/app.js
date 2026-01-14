@@ -114,31 +114,112 @@ class App {
         }
     }
 
+    /* --- Custom Dropdown Logic (MockAPI Style) --- */
+    generateCustomDropdown(id, options, selectedValue) {
+        // Fallback if options empty
+        const selectedObj = options.find(o => o.value === selectedValue) || options[0] || { label: 'Select', value: '' };
+
+        return `
+            <label class="popup" id="${id}" data-value="${selectedObj.value}">
+                <input type="checkbox" id="${id}-checkbox">
+                <div class="burger" tabindex="0">
+                    <span class="text">${selectedObj.label}</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24">
+                        <path d="M7 10l5 5 5-5z"></path>
+                    </svg>
+                </div>
+                <nav class="popup-window">
+                    <legend>Select Option</legend>
+                    <ul>
+                        ${options.map(opt => `
+                            <li>
+                                <button onclick="app.selectCustomOption('${id}', '${opt.value}', '${opt.label}')">
+                                    <span>${opt.label}</span>
+                                </button>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </nav>
+            </label>
+        `;
+    }
+
+    selectCustomOption(dropdownId, value, label) {
+        const dropdown = document.getElementById(dropdownId);
+        if (!dropdown) return;
+
+        // Update Text
+        const textSpan = dropdown.querySelector('.burger .text');
+        if (textSpan) textSpan.textContent = label;
+
+        // Update Data Value
+        dropdown.setAttribute('data-value', value);
+
+        // Close Dropdown (Uncheck box)
+        const checkbox = document.getElementById(`${dropdownId}-checkbox`);
+        if (checkbox) checkbox.checked = false;
+
+        // Logic Trigger
+        if (dropdownId === 'chart-type-filter') {
+            this.currentFilterType = value;
+            this.updateCharts();
+        }
+        if (dropdownId === 'chart-cat-filter') {
+            // this.currentFilterCat = value;
+            this.updateCharts();
+        }
+    }
+
+    setupCustomDropdowns() {
+        // Global close on click outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.popup')) {
+                document.querySelectorAll('.popup input[type="checkbox"]').forEach(cb => cb.checked = false);
+            }
+        });
+    }
+
     renderAnalytics(container) {
         // Collect all unique categories
         const allCats = new Set([...CATEGORIES.expense, ...CATEGORIES.income]);
-        // Also add any custom categories found in transactions
         state.transactions.forEach(t => allCats.add(t.category));
 
-        const catOptions = Array.from(allCats).map(c => `<option value="${c}">${c}</option>`).join('');
+        const catOptions = ['All Categories', ...Array.from(allCats)];
+
+        // Initial values
+        const currentType = this.currentFilterType || 'expense';
+        const currentCat = this.currentFilterCat || 'All Categories'; // Default label
+
+        // Helper to safe-match value/label
+        // If cat is 'all', label 'All Categories'
+        const typeOptions = [
+            { label: 'Expenses 💸', value: 'expense' },
+            { label: 'Income 💰', value: 'income' }
+        ];
+
+        const mappedCatOptions = catOptions.map(c => ({
+            label: c,
+            value: c === 'All Categories' ? 'all' : c
+        }));
+
+        const currentCatVal = currentCat === 'All Categories' ? 'all' : currentCat;
 
         container.innerHTML = `
-            <div class="glass-card">
+            <div class="glass-card" style="overflow:visible;">
                 <div class="flex-between" style="margin-bottom:20px; flex-wrap:wrap; gap:10px;">
                     <h2>Analytics Overview</h2>
-                    <div style="display:flex; gap:10px;">
-                        <select id="chart-type-filter" class="custom-input" style="width:auto; padding:5px 15px; height:auto; margin:0;" onchange="app.updateCharts()">
-                            <option value="expense">Expenses 💸</option>
-                            <option value="income">Income 💰</option>
-                        </select>
-                        <select id="chart-cat-filter" class="custom-input" style="width:auto; padding:5px 15px; height:auto; margin:0;" onchange="app.updateCharts()">
-                            <option value="all">All Categories</option>
-                            ${catOptions}
-                        </select>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        
+                        <!-- Type Dropdown -->
+                        ${this.generateCustomDropdown('chart-type-filter', typeOptions, currentType)}
+
+                        <!-- Category Dropdown -->
+                        ${this.generateCustomDropdown('chart-cat-filter', mappedCatOptions, currentCatVal)}
+
                     </div>
                 </div>
                 
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:30px;">
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:30px; position:relative; z-index:1;">
                     <div>
                         <h4 style="text-align:center; margin-bottom:15px; opacity:0.7;">Breakdown</h4>
                         <div style="height:300px;">
@@ -154,7 +235,11 @@ class App {
                 </div>
             </div>
         `;
-        setTimeout(() => this.initCharts(), 100);
+
+        setTimeout(() => {
+            this.initCharts();
+            this.setupCustomDropdowns();
+        }, 100);
     }
 
     renderDashboard(container) {
