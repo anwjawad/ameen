@@ -62,127 +62,6 @@ body {
     display: none;
 }
 
-/* --- Enhanced Transaction Tiles (Premium Modern) - MOVED TO TOP --- */
-.premium-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 10px 5px;
-}
-
-.transaction-tile {
-    display: flex;
-    align-items: center;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
-    padding: 18px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    position: relative;
-    overflow: hidden;
-}
-
-.transaction-tile:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.15);
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
-}
-
-.transaction-tile:active {
-    transform: scale(0.98);
-}
-
-.tile-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    margin-right: 18px;
-    flex-shrink: 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.tile-icon.income {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: var(--success);
-}
-
-.tile-icon.expense {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: var(--danger);
-}
-
-.tile-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 6px;
-}
-
-.tile-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.tile-category {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: #fff;
-    letter-spacing: 0.3px;
-}
-
-.tile-amount {
-    font-family: 'Inter', sans-serif;
-    font-weight: 800;
-    font-size: 1.1rem;
-    letter-spacing: 0.5px;
-}
-
-.tile-amount.income {
-    color: var(--success);
-    text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
-}
-
-.tile-amount.expense {
-    color: var(--danger);
-    text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
-}
-
-.tile-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.tile-note {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.6);
-    font-weight: 400;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 160px;
-}
-
-.tile-date {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.4);
-    font-weight: 500;
-    background: rgba(255, 255, 255, 0.05);
-}
-
-
 /* --- Layout Grid --- */
 .app-layout {
     display: flex;
@@ -510,42 +389,24 @@ body {
 .button-container {
     pointer-events: auto;
     display: flex;
-    background-color: var(--card-bg);
-    /* Theme adaptation */
-    /* Scrollable Container Adaptation */
-    width: auto;
-    max-width: 90%;
-    overflow-x: auto;
-    justify-content: flex-start;
-    /* Align start for scrolling */
-    gap: 5px;
-    padding: 0 10px;
-
-    /* Hide Scrollbar */
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-
-    height: 50px;
-    /* Slight increase for touch targets */
+    background-color: var(--card-bg); /* Theme adaptation */
+    width: 250px;
+    height: 50px; /* Slight increase for touch targets */
     align-items: center;
+    justify-content: space-around;
     border-radius: 12px;
-
+    
     /* Dynamic Shadow using Accent Color */
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
-        rgba(51, 153, 255, 0.3) 0px 5px 20px;
-    /* var(--accent) approx */
-
+                rgba(51, 153, 255, 0.3) 0px 5px 20px; /* var(--accent) approx */
+    
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1px solid var(--border-color);
 }
 
-.button-container::-webkit-scrollbar {
-    display: none;
-}
-
 .button-container:hover {
-    /* Remove width animation as it conflicts with scroll */
-    width: auto;
-    max-width: 95%;
+    width: 310px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .button {
@@ -567,8 +428,7 @@ body {
 .button:hover {
     transform: translateY(-3px) scale(1.1);
     color: var(--accent);
-    background: rgba(255, 255, 255, 0.05);
-    /* Subtle highlight */
+    background: rgba(255, 255, 255, 0.05); /* Subtle highlight */
 }
 
 .button .icon {
@@ -958,6 +818,11 @@ html[dir="rtl"] .btn-buy-uiverse:hover .button-decor {
             gap: 15px;
 
             /* Disable 3D */
+            animation: none !important;
+            transform: none !important;
+            perspective: none !important;
+            transform-style: flat !important;
+
             /* Reset positioning */
             top: 0;
             left: 0;
@@ -1146,437 +1011,157 @@ html[dir="rtl"] .btn-buy-uiverse:hover .button-decor {
         display: none;
     }
 
-}
+    @media (max-width: 799px) {
+        .desktop-only {
+            display: none !important;
+        }
 
-/* --- Mobile Navigation Options --- */
-
-/* Default (Bar) is hidden if another layout is active */
-body.layout-side .mobile-nav-container,
-body.layout-tabs .mobile-nav-container {
-    display: none !important;
-}
-
-/* --- Option 2: Side Menu (Drawer) --- */
-.mobile-header {
-    display: none;
-    /* Visible only in 'side' layout */
-}
-
-.mobile-sidebar-overlay {
-    display: none;
-}
-
-body.layout-side .mobile-header {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: rgba(15, 12, 41, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
-    z-index: 1000;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-}
-
-body.layout-side .mobile-nav-container {
-    display: none;
-}
-
-body.layout-side .mobile-sidebar-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 2000;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-body.layout-side .mobile-sidebar-overlay.open {
-    display: block;
-    opacity: 1;
-}
-
-.mobile-sidebar {
-    position: fixed;
-    top: 0;
-    left: -280px;
-    /* RTL support needed? User uses RTL. Right? */
-    width: 280px;
-    height: 100%;
-    background: var(--card-bg);
-    border-right: 1px solid var(--border-color);
-    z-index: 2001;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
-
-/* RTL Side Menu */
-html[dir="rtl"] .mobile-sidebar {
-    left: auto;
-    right: -280px;
-    border-right: none;
-    border-left: 1px solid var(--border-color);
-}
-
-html[dir="rtl"] .mobile-sidebar.open {
-    transform: translateX(-280px);
-}
-
-/* LTR Support check */
-html[dir="ltr"] .mobile-sidebar.open {
-    transform: translateX(280px);
-}
-
-
-.sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    border-radius: 12px;
-    transition: 0.2s;
-    cursor: pointer;
-}
-
-.sidebar-link:hover,
-.sidebar-link.active {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--accent);
-}
-
-/* --- Option 3: Tabs (User Provided) --- */
-.mobile-tabs-container {
-    display: none;
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    justify-content: center;
-    z-index: 1000;
-    padding-bottom: 0px;
-}
-
-body.layout-tabs .mobile-tabs-container {
-    display: flex;
-}
-
-/* Adapted Radio Inputs CSS */
-.radio-inputs {
-    position: relative;
-    display: flex;
-    /* border-top-left-radius: 0.5rem; */
-    /* border-top-right-radius: 0.5rem; */
-    border-radius: 20px 20px 0 0;
-    /* Updated for bottom bar feel */
-    background-color: var(--card-bg);
-    /* Adapted Theme */
-    font-size: 14px;
-    width: 100%;
-    /* Full Width */
-    max-width: 500px;
-    padding: 0.5rem 0.5rem 0 0.5rem;
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
-    border-top: 1px solid var(--border-color);
-    justify-content: space-between;
-}
-
-.radio-inputs .radio {
-    flex: 1;
-    text-align: center;
-}
-
-.radio-inputs .radio input {
-    display: none;
-}
-
-.radio-inputs .radio .name {
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    transition: all 0.15s ease-in-out;
-    position: relative;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-    padding: 10px 0;
-    color: var(--text-muted);
-}
-
-/* Hover */
-.radio-inputs .radio input+.name:hover {
-    color: var(--text-main);
-}
-
-/* Selected State Animation */
-.radio-inputs .radio input:checked+.name {
-    background-color: var(--accent);
-    /* #70c489 -> accent */
-    color: white;
-    font-weight: 600;
-    animation: none;
-    /* User animation was complex, simplified for clean UI or use theirs? Let's use theirs adapted */
-}
-
-/* Using User exact logic adapted to theme */
-.radio-inputs .radio input:checked+.name {
-    background-color: var(--bg-dark);
-    /* The "Active" hole */
-    color: var(--accent);
-}
-
-/* The "Cornes" logic provided relies on a specific background color structure. 
-       Since our body is dark, let's invert the logic: 
-       The Bar is Dark (Card BG). The Active Item "lifts" up or becomes the Body BG?
-       
-       Actually, the user's code makes the *active item* turn into the *background color* (#e8e8e8),
-       and the *surrounding bar* is the colored part (#70c489).
-       
-       Let's map:
-       #70c489 (Green Bar) -> var(--card-bg) [Dark Grey]
-       #e8e8e8 (Active Item Background) -> var(--accent) [Blue]
-       
-       Wait, that would make the active item a solid blue block.
-       Let's try to stick to the "Tab" feel. 
-    */
-
-.radio-inputs {
-    background-color: var(--card-bg);
-}
-
-/* Initial State */
-.radio-inputs .radio .name {
-    background-color: transparent;
-}
-
-/* Active State */
-.radio-inputs .radio input:checked+.name {
-    background-color: var(--accent);
-    color: white;
-}
-
-/* Pre/Pos Names (The Curves) */
-.radio-inputs .radio input+.name .pre-name,
-.radio-inputs .radio input+.name .pos-name {
-    content: "";
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: var(--card-bg);
-    /* Match Bar */
-    bottom: 0;
-    opacity: 0;
-}
-
-.radio-inputs .radio input+.name .pre-name {
-    right: -10px;
-    border-bottom-left-radius: 300px;
-    /* box-shadow: -3px 3px 0px 3px var(--accent); */
-}
-
-.radio-inputs .radio input+.name .pos-name {
-    left: -10px;
-    border-bottom-right-radius: 300px;
-    /* box-shadow: 3px 3px 0px 3px var(--accent); */
-}
-
-.radio-inputs .radio input:checked+.name .pre-name,
-.radio-inputs .radio input:checked+.name .pos-name {
-    opacity: 1;
-    /* Custom Shadow to creates the curve connector */
-    box-shadow: 0px 5px 0px var(--accent);
-    /* Inverted Logic for bottom tabs? */
-    /* The user code was 'top' tabs essentially? No, borders were top-radius. */
-
-    /* Simpler Implementation for reliability in dark mode: */
-    /* Just highlight the tab */
-}
-
-/* --- Red Tab (+) Styling --- */
-.radio-inputs .radio.tab-add input:checked+.name {
-    background-color: var(--danger) !important;
-    color: white !important;
-}
-
-.radio-inputs .radio.tab-add input:checked+.name .pre-name,
-.radio-inputs .radio.tab-add input:checked+.name .pos-name {
-    box-shadow: 0px 5px 0px var(--danger) !important;
-}
-
-/* Ensure tabs scroll if too many */
-.radio-inputs {
-    overflow-x: auto;
-    justify-content: flex-start;
-    gap: 2px;
-}
-
-.radio-inputs .radio {
-    min-width: 45px;
-    /* Ensure touch target size */
-}
-
-/* Hide scrollbar on tabs */
-.radio-inputs::-webkit-scrollbar {
-    display: none;
-}
-
-/* --- Unified Header & Navigation --- */
-
-.main-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 100;
-}
-
-.logo {
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--accent);
-    letter-spacing: 0.5px;
-}
-
-.menu-btn {
-    background: none;
-    border: none;
-    color: var(--text-main);
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Sidebar Drawer (Right Side) */
-.mobile-sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 280px;
-    height: 100%;
-    background: var(--sidebar-bg);
-    border-left: 1px solid var(--border-color);
-    z-index: 1000;
-    transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
-}
-
-.mobile-sidebar.open {
-    transform: translateX(0);
-}
-
-.mobile-sidebar-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(2px);
-    z-index: 999;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s;
-}
-
-.mobile-sidebar-overlay.open {
-    opacity: 1;
-    visibility: visible;
-}
-
-.sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--border-color);
-    font-weight: 800;
-    font-size: 1.2rem;
-    color: var(--accent);
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 2rem;
-    line-height: 1;
-    cursor: pointer;
-}
-
-.sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 15px;
-    color: var(--text-muted);
-    font-weight: 500;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-    font-size: 1rem;
-}
-
-.sidebar-link:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-main);
-}
-
-.sidebar-link span {
-    font-size: 1.2rem;
-    width: 25px;
-    text-align: center;
-}
-
-/* --- Layout Adjustment --- */
-.main-content {
-    margin-top: 60px;
-    width: 100%;
-    padding: 20px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.sidebar {
-    display: none !important;
-}
-
-@media (min-width: 800px) {
-    .dashboard-grid {
-        display: grid;
-        grid-template-columns: 1.5fr 1fr;
-        gap: 30px;
-        align-items: start;
+        .mobile-only {
+            display: flex !important;
+        }
     }
-}
 
-@media (max-width: 800px) {
-    .dashboard-grid {
+    /* --- Mobile Horizontal Scroll Container --- */
+    .mobile-scroll-view {
+        display: flex;
+        /* Critical Fix */
+        width: 100%;
+        overflow-x: auto;
+        padding: 20px 10px;
+        gap: 20px;
+        scroll-snap-type: x mandatory;
+        -ms-overflow-style: none;
+        /* Hide scrollbar */
+        scrollbar-width: none;
+    }
+
+    .mobile-scroll-view::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* --- Uiverse Mobile Card Design --- */
+    .mobile-card {
+        width: 230px;
+        height: auto;
+        min-height: 280px;
+        border-radius: 20px;
+        background: var(--card-bg);
+        /* Adapted from #1b233d */
+        padding: 5px;
+        overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 7px 20px 0px;
+        transition: transform 0.3s;
+        flex-shrink: 0;
+        scroll-snap-align: center;
+        border: 1px solid var(--border-color);
+        position: relative;
+    }
+
+    .mobile-card:active {
+        transform: scale(0.98);
+    }
+
+    .mobile-card .top-section {
+        height: 150px;
+        border-radius: 15px;
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        background: linear-gradient(45deg, var(--accent) 0%, #50f6ff 100%);
+        /* Adapted colors */
+        position: relative;
     }
-}
+
+    .mobile-card .top-section .border {
+        border-bottom-right-radius: 10px;
+        height: 30px;
+        width: 130px;
+        background: var(--card-bg);
+        /* Match card bg */
+        position: relative;
+        transform: skew(-40deg);
+        box-shadow: -10px -10px 0 0 var(--card-bg);
+    }
+
+    .mobile-card .top-section .border::before {
+        content: "";
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        top: 0;
+        right: -15px;
+        background: rgba(255, 255, 255, 0);
+        border-top-left-radius: 10px;
+        box-shadow: -5px -5px 0 2px var(--card-bg);
+    }
+
+    .mobile-card .top-section::before {
+        content: "";
+        position: absolute;
+        top: 30px;
+        left: 0;
+        background: rgba(255, 255, 255, 0);
+        height: 15px;
+        width: 15px;
+        border-top-left-radius: 15px;
+        box-shadow: -5px -5px 0 2px var(--card-bg);
+    }
+
+    .mobile-card .top-section .icons {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 30px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .mobile-card .top-section .icons .logo {
+        height: 100%;
+        aspect-ratio: 1;
+        padding: 7px 0 7px 15px;
+        font-size: 1.2rem;
+    }
+
+    .mobile-card .bottom-section {
+        margin-top: 15px;
+        padding: 10px 5px;
+    }
+
+    .mobile-card .bottom-section .title {
+        display: block;
+        font-size: 17px;
+        font-weight: bolder;
+        color: white;
+        text-align: center;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+    }
+
+    .mobile-card .bottom-section .row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .mobile-card .bottom-section .row .item {
+        flex: 30%;
+        text-align: center;
+        padding: 5px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .mobile-card .bottom-section .row .item .big-text {
+        font-size: 12px;
+        display: block;
+        font-weight: bold;
+        color: white;
+    }
+
+    .mobile-card .bottom-section .row .item .regular-text {
+        font-size: 10px;
+    }
+
+    .mobile-card .bottom-section .row .item:nth-child(2) {
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }

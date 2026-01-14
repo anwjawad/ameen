@@ -5,6 +5,7 @@
 
 import { state } from './state.js';
 import { api } from './api.js';
+import { features } from './features.js';
 
 // Predefined Categories
 const CATEGORIES = {
@@ -45,7 +46,8 @@ class App {
                 api.getTransactions(),
                 api.getBills(),
                 api.getShoppingList(),
-                api.getGoals()
+                api.getGoals(),
+                api.getPremiumData() // Load Subs & Challenges
             ]);
             this.navigate('dashboard');
         } catch (e) {
@@ -57,6 +59,12 @@ class App {
     // --- Navigation ---
     navigate(viewId) {
         state.currentView = viewId;
+
+        // Force close sidebar on nav
+        const sidebar = document.querySelector('.mobile-sidebar');
+        const overlay = document.querySelector('.mobile-sidebar-overlay');
+        if (sidebar) sidebar.classList.remove('open');
+        if (overlay) overlay.classList.remove('open');
 
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
 
@@ -88,29 +96,57 @@ class App {
             case 'settings':
                 this.renderSettings(main);
                 break;
+            case 'subscriptions':
+                features.renderSubscriptions(main);
+                break;
+            case 'challenges':
+                features.renderChallenges(main);
+                break;
+        }
+    }
+
+    toggleSidebar() {
+        const sidebar = document.querySelector('.mobile-sidebar');
+        const overlay = document.querySelector('.mobile-sidebar-overlay');
+        if (sidebar && overlay) {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
         }
     }
 
     renderAnalytics(container) {
+        // Collect all unique categories
+        const allCats = new Set([...CATEGORIES.expense, ...CATEGORIES.income]);
+        // Also add any custom categories found in transactions
+        state.transactions.forEach(t => allCats.add(t.category));
+        
+        const catOptions = Array.from(allCats).map(c => `<option value="${c}">${c}</option>`).join('');
+
         container.innerHTML = `
             <div class="glass-card">
-                <div class="flex-between" style="margin-bottom:20px;">
+                <div class="flex-between" style="margin-bottom:20px; flex-wrap:wrap; gap:10px;">
                     <h2>Analytics Overview</h2>
-                    <select id="chart-filter" class="custom-input" style="width:auto; padding:5px 15px; height:auto;" onchange="app.updateCharts()">
-                         <option value="expense">Expenses</option>
-                         <option value="income">Income</option>
-                    </select>
+                    <div style="display:flex; gap:10px;">
+                        <select id="chart-type-filter" class="custom-input" style="width:auto; padding:5px 15px; height:auto; margin:0;" onchange="app.updateCharts()">
+                            <option value="expense">Expenses 💸</option>
+                            <option value="income">Income 💰</option>
+                        </select>
+                        <select id="chart-cat-filter" class="custom-input" style="width:auto; padding:5px 15px; height:auto; margin:0;" onchange="app.updateCharts()">
+                            <option value="all">All Categories</option>
+                            ${catOptions}
+                        </select>
+                    </div>
                 </div>
                 
                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:30px;">
                     <div>
-                        <h4 style="text-align:center; margin-bottom:15px; opacity:0.7;">Category Breakdown</h4>
+                        <h4 style="text-align:center; margin-bottom:15px; opacity:0.7;">Breakdown</h4>
                         <div style="height:300px;">
                             <canvas id="pieChart"></canvas>
                         </div>
                     </div>
                     <div>
-                        <h4 style="text-align:center; margin-bottom:15px; opacity:0.7;">Spending Trend</h4>
+                        <h4 style="text-align:center; margin-bottom:15px; opacity:0.7;">Trend</h4>
                         <div style="height:300px;">
                             <canvas id="lineChart"></canvas>
                         </div>
@@ -135,6 +171,10 @@ class App {
                 
                 <!-- Right Column (In RTL): Balance -->
                 <div class="dash-col-right" style="display:flex; flex-direction:column; gap:20px; width:100%;">
+                    
+                    <!-- Smart Insights Widget -->
+                    <div id="insights-widget"></div>
+
                     <div class="glass-card" style="text-align:center; padding: 40px 20px; background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);">
                         <div>
                             <h3 style="color:var(--text-muted)">Current Balance</h3>
@@ -195,6 +235,9 @@ class App {
 
         // Initialize Chart
         setTimeout(() => {
+            // Render Insights
+            if (window.features) features.renderInsightsWidget('insights-widget');
+
             const ctx = document.getElementById('dashboardChart');
             if (ctx) {
                 // Aggregate Data
@@ -293,14 +336,32 @@ class App {
         const ctxLine = document.getElementById('lineChart');
         if (!ctxPie || !ctxLine) return;
 
-        const mode = document.getElementById('chart-filter') ? document.getElementById('chart-filter').value : 'expense';
-        const filtered = state.transactions.filter(t => t.type === mode);
+        const typeFilter = document.getElementById('chart-type-filter') ? document.getElementById('chart-type-filter').value : 'expense';
+        const catFilter = document.getElementById('chart-cat-filter') ? document.getElementById('chart-cat-filter').value : 'all';
 
-        // Pie Data
-        const cats = {};
+        let filtered = state.transactions.filter(t => t.type === typeFilter);
+
+        // Apply Category Filter if not "all"
+        if (catFilter !== 'all') {
+            filtered = filtered.filter(t => t.category === catFilter);
+        }
+
+        // Pie Data (If category is selected, maybe show Note breakdown? Or just single slice? 
+        // If Category is 'all', show breakdown by Category.
+        // If Category is specific, show breakdown by Time or Note (if available), or just 100% slice.
+        // Let's keep it simple: Breakdown by Note if specific category is selected, or just single color.)
+        
+        const keyMap = {};
+        
         filtered.forEach(t => {
-            const cat = t.category || 'General';
-            cats[cat] = (cats[cat] || 0) + Number(t.amount);
+            let k = t.category;
+            if (catFilter !== 'all') {
+                // If specific category, group by Note (or 'Unknown') to show variety
+                k = t.note || 'General';
+            } else {
+                k = t.category || 'General';
+            }
+            keyMap[k] = (keyMap[k] || 0) + Number(t.amount);
         });
 
         // Line Data
@@ -317,9 +378,9 @@ class App {
         this.pieChartInstance = new Chart(ctxPie, {
             type: 'doughnut',
             data: {
-                labels: Object.keys(cats),
+                labels: Object.keys(keyMap),
                 datasets: [{
-                    data: Object.values(cats),
+                    data: Object.values(keyMap),
                     backgroundColor: ['#8E2DE2', '#4A00E0', '#00b09b', '#ff5f6d', '#ffc371', '#c3cfe2'],
                     borderWidth: 0
                 }]
