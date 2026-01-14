@@ -660,7 +660,7 @@ class App {
         this.pendingShoppingId = null;
     }
 
-    setTransType(type) {
+    setTransType(type, initialCategory = null) {
         this.currentTransType = type;
         const container = document.getElementById('type-tabs');
 
@@ -679,15 +679,17 @@ class App {
             container.children[2].classList.add('selected');
         }
 
-        // Populate Categories
-        const select = document.getElementById('trans-category');
-        select.innerHTML = '';
-        CATEGORIES[type].forEach(cat => {
-            const opt = document.createElement('option');
-            opt.value = cat;
-            opt.textContent = cat;
-            select.appendChild(opt);
-        });
+        // Populate Custom Dropdown
+        const options = CATEGORIES[type].map(c => ({ label: c, value: c }));
+        const defaultVal = initialCategory || options[0].value;
+        const dropdownHTML = this.generateCustomDropdown('trans-category-dropdown', options, defaultVal);
+
+        const dropdownContainer = document.getElementById('custom-category-container');
+        if (dropdownContainer) dropdownContainer.innerHTML = dropdownHTML;
+
+        // Ensure it has full width styling if needed
+        const newDropdown = document.getElementById('trans-category-dropdown');
+        if (newDropdown) newDropdown.style.width = '100%';
     }
 
     debugCards() {
@@ -720,16 +722,14 @@ class App {
 
         // Open modal
         this.openAddModal();
-        this.setTransType(tx.type);
+        this.setTransType(tx.type, tx.category);
 
         // Populate Fields
         const amountEl = document.getElementById('trans-amount');
         const noteEl = document.getElementById('trans-note');
-        const catEl = document.getElementById('trans-category');
 
         if (amountEl) amountEl.value = tx.amount;
         if (noteEl) noteEl.value = tx.note || '';
-        if (catEl) catEl.value = tx.category;
 
         // Notify user (Optional, keeps it non-intrusive)
         console.log("Viewing transaction:", tx);
@@ -737,8 +737,11 @@ class App {
 
     saveTransaction() {
         const amount = document.getElementById('trans-amount').value;
-        const category = document.getElementById('trans-category').value;
         const note = document.getElementById('trans-note').value;
+
+        // Custom Dropdown
+        const catEl = document.getElementById('trans-category-dropdown');
+        const category = catEl ? catEl.getAttribute('data-value') : 'General';
 
         if (!amount || Number(amount) <= 0) {
             alert("Please enter a valid amount");
