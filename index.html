@@ -31,8 +31,8 @@
     <div class="app-layout">
         <!-- Header / Navbar (Unified for Desktop & Mobile) -->
         <header class="main-header">
-            <div class="logo">AJ+ Finance</div>
             <button class="menu-btn" onclick="app.toggleSidebar()">☰</button>
+            <div class="logo">AJ+ Finance</div>
         </header>
 
         <!-- Main Content Area -->
@@ -72,86 +72,7 @@
         </div>
     </aside>
 
-    <!-- Mobile Tabs Container (Visible only in 'tabs' layout) -->
-    <nav class="mobile-tabs-container">
-        <div class="radio-inputs">
-            <label class="radio">
-                <input type="radio" name="mobile-tab" onclick="app.navigate('settings')">
-                <div class="name">
-                    <span class="pre-name"></span>
-                    <span class="pos-name"></span>
-                    <span>⚙️</span>
-                </div>
-            </label>
-            <label class="radio">
-                <input type="radio" name="mobile-tab" onclick="app.navigate('goals')">
-                <div class="name">
-                    <span class="pre-name"></span>
-                    <span class="pos-name"></span>
-                    <span>🎯</span>
-                </div>
-            </label>
-            <label class="radio">
-                <input type="radio" name="mobile-tab" onclick="app.navigate('budget')">
-                <div class="name">
-                    <span class="pre-name"></span>
-                    <span class="pos-name"></span>
-                    <span>🧠</span>
-                </div>
-            </label>
-            <label class="radio">
-                <input type="radio" name="mobile-tab" onclick="app.navigate('bills')">
-                <div class="name">
-                    <span class="pre-name"></span>
-                    <span class="pos-name"></span>
-                    <span>📅</span>
-                </div>
-            </label>
-
-            <!-- Red Add Button -->
-            <label class="radio tab-add">
-                <input type="radio" name="mobile-tab" onclick="app.openAddModal()">
-                <div class="name">
-                    <span class="pre-name"></span>
-                    <span class="pos-name"></span>
-                    <span style="font-size:1.4rem; font-weight:900;">+</span>
-                </div>
-            </label>
-
-            <label class="radio">
-                <input type="radio" name="mobile-tab" onclick="app.navigate('transactions')">
-                <div class="name">
-                    <span class="pre-name"></span>
-                    <span class="pos-name"></span>
-                    <span>💸</span>
-                </div>
-            </label>
-            <label class="radio">
-                <input type="radio" name="mobile-tab" onclick="app.navigate('shopping')">
-                <div class="name">
-                    <span class="pre-name"></span>
-                    <span class="pos-name"></span>
-                    <span>🛒</span>
-                </div>
-            </label>
-            <label class="radio">
-                <input type="radio" name="mobile-tab" onclick="app.navigate('analytics')">
-                <div class="name">
-                    <span class="pre-name"></span>
-                    <span class="pos-name"></span>
-                    <span>📈</span>
-                </div>
-            </label>
-            <label class="radio">
-                <input type="radio" name="mobile-tab" onclick="app.navigate('dashboard')" checked>
-                <div class="name">
-                    <span class="pre-name"></span>
-                    <span class="pos-name"></span>
-                    <span>📊</span>
-                </div>
-            </label>
-        </div>
-    </nav>
+    <!-- Mobile Tabs Container REMOVED -->
 
     <!-- Transaction Modal -->
     <div id="add-modal" class="modal-overlay hidden"
