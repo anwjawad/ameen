@@ -1583,3 +1583,110 @@ body.layout-tabs .mobile-tabs-container {
         gap: 20px;
     }
 }
+
+/* --- Custom Animated Dropdowns --- */
+
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    width: auto;
+    display: inline-block;
+    min-width: 150px;
+    margin-bottom: 0;
+    /* Align nicely */
+}
+
+/* Hide native select but keep it accessible-ish/functional in background */
+.custom-select-wrapper select {
+    display: none;
+}
+
+.custom-select-trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.custom-select-trigger:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent);
+}
+
+.custom-select-trigger::after {
+    content: '▼';
+    font-size: 0.7rem;
+    margin-left: 10px;
+    transition: transform 0.3s;
+    opacity: 0.7;
+}
+
+/* Open State */
+.custom-select-wrapper.open .custom-select-trigger::after {
+    transform: rotate(180deg);
+}
+
+.custom-options {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    min-width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    /* Above modals */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.custom-select-wrapper.open .custom-options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.custom-option {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    white-space: nowrap;
+}
+
+.custom-option:last-child {
+    border-bottom: none;
+}
+
+.custom-option:hover {
+    background: var(--accent);
+    color: white;
+    padding-left: 20px;
+}
+
+.custom-option.selected {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent);
+    font-weight: 700;
+}
