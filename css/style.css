@@ -1708,14 +1708,19 @@ body.layout-tabs .mobile-tabs-container {
 
 .sidebar-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    /* Push close button to the end */
     align-items: center;
     margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--border-color);
-    font-weight: 800;
-    font-size: 1.2rem;
-    color: var(--accent);
+    padding: 30px 20px;
+    /* Increased padding for banner visibility */
+    background-image: url('../assets/header-banner.png');
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 15px 15px;
+    /* Round bottom corners slightly */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .close-btn {
